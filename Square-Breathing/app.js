@@ -1,9 +1,9 @@
 const main_canvas = document.getElementById("mainCanvas");
 const ctx = main_canvas.getContext("2d");
-const start_position = 10;
+const start_position = 20;
 
-main_canvas.width = Math.floor(window.innerWidth * 0.8);
-main_canvas.height = Math.floor(window.innerHeight * 0.8);
+main_canvas.width = Math.floor(window.innerWidth);
+main_canvas.height = Math.floor(window.innerHeight);
 
 start_time = Date.now();
 
@@ -33,7 +33,9 @@ const square = {
     left_side_y2: -1,
     left_side_colour: 'PaleTurquoise',
 
-    background_colour: "rgb(250, 250, 250)",
+    background_colour: "rgb(255, 255, 255)",
+    circle_colour: 'Lavender',
+
     direction: 0,
     run_counter: 0,
     // start position
@@ -48,6 +50,15 @@ const square = {
         //ctx.font = "50px Arial";
         //ctx.fillText("Hello World", start_position, 80);
         ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(this.current_x, this.current_y, 20, 0, 2 * Math.PI, false);
+        ctx.fillStyle = this.circle_colour;
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = this.circle_colour;
+        ctx.stroke();
+
 
         ctx.beginPath();
         // always draw the top side
@@ -107,6 +118,7 @@ const square = {
                 this.right_side_x2 = this.max_size;
                 this.right_side_y1 = start_position;
                 this.right_side_y2 = start_position;
+                this.circle_colour = this.right_side_colour;
                 this.direction += 1;
             }
         } else if (this.direction == 1) {
@@ -117,6 +129,7 @@ const square = {
                 this.bottom_side_x2 = this.max_size;
                 this.bottom_side_y1 = this.max_size;
                 this.bottom_side_y2 = this.max_size;
+                this.circle_colour = this.bottom_side_colour;
                 this.direction++;
             }
         } else if (this.direction == 2) {
@@ -127,6 +140,7 @@ const square = {
                 this.left_side_x2 = start_position;
                 this.left_side_y1 = this.max_size;
                 this.left_side_y2 = this.max_size;
+                this.circle_colour = this.left_side_colour;
                 this.direction++;
             }
         } else {
@@ -137,6 +151,7 @@ const square = {
                 this.top_side_x2 = start_position;
                 this.top_side_y1 = start_position;
                 this.top_side_y2 = start_position;
+                this.circle_colour = this.top_side_colour;
                 this.direction = 0;
                 // reset the timer
                 start_time = Date.now();
