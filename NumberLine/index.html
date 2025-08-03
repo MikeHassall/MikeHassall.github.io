@@ -73,8 +73,8 @@
         }
         .plank {
             width: 80px;
-            height: 150px;
-            background-image: url('https://placehold.co/80x150/8B4513/FFFFFF?text=&font=montserrat');
+            height: 80px; /* Changed from 150px */
+            background-image: url('https://placehold.co/80x80/8B4513/FFFFFF'); /* Changed URL and removed text */
             background-size: cover;
             border-bottom: 10px solid #654321;
             border-radius: 5px;
@@ -113,7 +113,7 @@
             height: 60px;
             z-index: 10;
             transition: all 0.5s cubic-bezier(0.250, 0.250, 0.750, 0.750);
-            bottom: calc(40% + 150px); /* On top of the plank */
+            bottom: calc(40% + 80px); /* On top of the plank, adjusted for new height */
         }
         .input-area {
             display: flex;
@@ -395,7 +395,14 @@
                     if (visible) {
                         num.classList.add('visible');
                     } else {
-                        num.classList.remove('visible');
+                        // When hiding numbers, check if it's the current plank
+                        const plankOfThisNumber = num.closest('.plank');
+                        if (plankOfThisNumber) {
+                            const plankNumValue = parseInt(plankOfThisNumber.dataset.number, 10);
+                            if (plankNumValue !== currentPosition) {
+                                num.classList.remove('visible');
+                            }
+                        }
                     }
                 });
             }
@@ -537,7 +544,7 @@
                 const targetLeft = paddingOffset + (targetIndex * PLANK_TOTAL_WIDTH) + (PLANK_WIDTH / 2) - (playerElement.offsetWidth / 2);
 
                 if (isAnimating) {
-                    playerElement.style.bottom = `calc(40% + 150px + 100px)`; // Jump up
+                    playerElement.style.bottom = `calc(40% + 80px + 100px)`; // Jump up, adjusted for new height
                 }
                 
                 playerElement.style.left = `${targetLeft}px`;
@@ -551,7 +558,7 @@
 
                 if (isAnimating) {
                     setTimeout(() => {
-                         playerElement.style.bottom = `calc(40% + 150px)`; // Land
+                         playerElement.style.bottom = `calc(40% + 80px)`; // Land, adjusted for new height
                     }, 250);
                 }
             }
